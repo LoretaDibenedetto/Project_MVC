@@ -3,34 +3,33 @@
 <div class="container">
     <div class="row">
         <div class="col-6 m-auto ">
-<form class="mt-3 p-3" method="post">
+        <form class="mt-3 p-3" method="post">
     
-    <h3 class="mb-3"> Create a new category</h3>
-    <!--- Name input -->
-    <div class="form-outline mb-4">
-        <label asp-for="Name" class="form-label" for="form5Example1">Category Name</label>
-        <input asp-for="Name" id="form5Example1" class="form-control" />
-    </div>
+            <h3 class="mb-3"> Create a new category</h3>
+            <!--- Name input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="Name" class="form-label" for="form5Example1">Category Name</label>
+                    <input asp-for="Name" id="form5Example1" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
 
-    <!-- Email input -->
-    <div class="form-outline mb-4">
-        <label asp-for="DisplayOrder" class="form-label" for="form5Example2">Display Order</label>
-        <input asp-for="DisplayOrder"  id="form5Example2" class="form-control" />
-    </div>
+            <!-- display order input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="DisplayOrder" class="form-label" for="form5Example2">Display Order</label>
+                    <input asp-for="DisplayOrder"  id="form5Example2" class="form-control" />
+                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
 
+                </div>
 
-
+            <!-- Submit button -->
                 <button type="submit" class="btn btn-primary  mb-4 " >Create</button>
 
 
-                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary mb-4 ms-2 "  >
-                    Back to List
-            </a>
+                   <a asp-controller="Category" asp-action="Index" class="btn btn-secondary mb-4 ms-2 "  >
+                                Back to List
+                   </a>
        
-
-
-    <!-- Submit button -->
-    </form>
+            </form>
     </div>
     </div>
 </div>
