@@ -72,7 +72,7 @@ namespace BulkyWeb.Controllers
             
             if (ModelState.IsValid)
             {
-                _categoryRepo.Add(obj);
+                _categoryRepo.Update(obj);
                 _categoryRepo.Save();
                 TempData["success"] = "Category edit successifully";
                 return RedirectToAction("Index");
