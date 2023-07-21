@@ -1,4 +1,5 @@
-﻿using Bulky.Models;
+﻿using Bulky.DataAccess.Repository.IRepository;
+using Bulky.Models;
 using BulkyWeb.DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,14 +7,14 @@ namespace BulkyWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public CategoryController(ApplicationDbContext db)
+        private readonly ICategoryRepository _categoryRepo;
+        public CategoryController(ICategoryRepository db)
         {
-            _db = db;
+            _categoryRepo = db;
         }
         public IActionResult Index()
         {
-            var objCategoryList = _db.Categories.ToList();
+            var objCategoryList = _categoryRepo.GetAll().ToList();
      
             return View(objCategoryList);
         }
@@ -39,8 +40,8 @@ namespace BulkyWeb.Controllers
             }
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(obj);
-                _db.SaveChanges();
+                _categoryRepo.Add(obj);
+                _categoryRepo.Save();
                 TempData["success"] = "Category created successifully";
                 return RedirectToAction("Index");   
             }
@@ -56,7 +57,7 @@ namespace BulkyWeb.Controllers
             {
                 return NotFound();
             }
-            Category? categoryForDb = _db.Categories.FirstOrDefault(c => c.Id == id);
+            Category? categoryForDb = _categoryRepo.Get(c => c.Id == id);
             if (categoryForDb == null)
             {
                 return NotFound();
@@ -71,8 +72,8 @@ namespace BulkyWeb.Controllers
             
             if (ModelState.IsValid)
             {
-                _db.Categories.Update(obj);
-                _db.SaveChanges();
+                _categoryRepo.Add(obj);
+                _categoryRepo.Save();
                 TempData["success"] = "Category edit successifully";
                 return RedirectToAction("Index");
             }
@@ -87,7 +88,7 @@ namespace BulkyWeb.Controllers
             {
                 return NotFound();
             }
-            Category? categoryForDb = _db.Categories.FirstOrDefault(c => c.Id == id);
+            Category? categoryForDb = _categoryRepo.Get(c => c.Id == id);
             if (categoryForDb == null)
             {
                 return NotFound();
@@ -99,13 +100,14 @@ namespace BulkyWeb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            Category? obj = _db.Categories.FirstOrDefault(c => c.Id == id);
+            Category? obj = _categoryRepo.Get(c => c.Id == id);
             if(obj == null)
             {
                 return NotFound(id);
             }
-            _db.Categories.Remove(obj);
-            _db.SaveChanges();
+           _categoryRepo.Remove(obj);
+            _categoryRepo.Save();
+           
             TempData["success"] = "Category delete successifully";
             return RedirectToAction("index");
           
