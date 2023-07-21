@@ -1,5 +1,5 @@
-﻿using BulkyWeb.Data;
-using BulkyWeb.Models;
+﻿using Bulky.Models;
+using BulkyWeb.DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulkyWeb.Controllers
@@ -100,7 +100,10 @@ namespace BulkyWeb.Controllers
         public IActionResult DeletePOST(int? id)
         {
             Category? obj = _db.Categories.FirstOrDefault(c => c.Id == id);
-
+            if(obj == null)
+            {
+                return NotFound(id);
+            }
             _db.Categories.Remove(obj);
             _db.SaveChanges();
             TempData["success"] = "Category delete successifully";
