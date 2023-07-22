@@ -6,7 +6,7 @@ namespace Bulky.Models
     public class Category
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+      
         public int Id { get; set; }
 
         [Required]
