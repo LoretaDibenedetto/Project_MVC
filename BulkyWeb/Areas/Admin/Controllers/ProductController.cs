@@ -2,6 +2,8 @@
 using Bulky.Models;
 using BulkyWeb.DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -16,7 +18,11 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var objProductList = _unitOfWork.ProductRepository.GetAll().ToList();
-
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepository.GetAll().ToList().Select(u => new SelectListItem
+            {
+                Text = u.Name,  
+                Value =u.Id.ToString()
+            });
             return View(objProductList);
         }
 

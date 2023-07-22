@@ -1,0 +1,71 @@
+﻿@model Product
+
+<div class="container card bg-dark rounded-3 shadow-lg mt-5">
+    <div class="row">
+        <div class="col-6 m-auto ">
+            <form class="mt-3 p-3" method="post">
+                <input asp-for="Id" hidden/> 
+                <h3 class="mb-3"> Edit a new product</h3>
+                <!--- Name input -->
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-outline mb-4">
+                    <label asp-for="Title" class="form-label" for="form5Example1">Product Name</label>
+                    <input asp-for="Title" id="form5Example1" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <!-- display order input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="Description" class="form-label" for="form5Example2">Display Order</label>
+                    <input asp-for="Description" id="form5Example2" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+
+                </div>
+                <div class="form-outline mb-4">
+                    <label asp-for="ISBN" class="form-label" for="form5Example2">Display Order</label>
+                    <input asp-for="ISBN" id="form5Example2" class="form-control" />
+                    <span asp-validation-for="ISBN" class="text-danger"></span>
+
+                </div>
+                <div class="form-outline mb-4">
+                    <label asp-for="Author" class="form-label" for="form5Example2">Display Order</label>
+                    <input asp-for="Author" id="form5Example2" class="form-control" />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+
+                </div>
+                <div class="form-outline mb-4">
+                    <label asp-for="ListPrice" class="form-label" for="form5Example2">Display Order</label>
+                    <input asp-for="ListPrice" id="form5Example2" class="form-control" />
+                    <span asp-validation-for="ListPrice" class="text-danger"></span>
+
+                </div>
+                <div class="form-outline mb-4">
+                    <label asp-for="Price" class="form-label" for="form5Example2">Display Order</label>
+                    <input asp-for="Price" id="form5Example2" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+
+                </div>
+                <div class="form-outline mb-4">
+                    <label asp-for="Price50" class="form-label" for="form5Example2">Display Order</label>
+                    <input asp-for="Price50" id="form5Example2" class="form-control" />
+                    <span asp-validation-for="Price50" class="text-danger"></span>
+
+                </div>
+                <div class="form-outline mb-4">
+                    <label asp-for="Price100" class="form-label" for="form5Example2">Display Order</label>
+                    <input asp-for="Price100" id="form5Example2" class="form-control" />
+                    <span asp-validation-for="Price100" class="text-danger"></span>
+
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary  mb-4 ">Edit</button>
+
+
+                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary mb-4 ms-2 ">
+                    Back to List
+                </a>
+
+            </form>
+        </div>
+    </div>
+</div>
