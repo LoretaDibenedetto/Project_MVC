@@ -25,15 +25,35 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         [HttpGet]
         public IActionResult Create()
+
+        
+
         {
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepository.GetAll().ToList().Select(u => new SelectListItem
+            //IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepository
+            //        .GetAll().Select(u => new SelectListItem
+            //        {
+            //            Text = u.Name,
+            //            Value = u.Id.ToString()
+            //        });
+
+            //ViewBag.CategoryList = CategoryList;
+
+
+            ProductVM productVM = new()
             {
-                Text = u.Name,
-                Value = u.Id.ToString()
-            });
-            ViewBag.CategoryList = CategoryList;    
-           
-            return View();
+                CategoryList =_unitOfWork.CategoryRepository.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+                Product = new Product()
+            };
+
+
+            return View(productVM);
+
+
+
         }
 
 
