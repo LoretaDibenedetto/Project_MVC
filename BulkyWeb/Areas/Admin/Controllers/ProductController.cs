@@ -29,7 +29,12 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepository.GetAll().ToList().Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
+            ViewBag.CategoryList = CategoryList;    
             return View();
         }
 
