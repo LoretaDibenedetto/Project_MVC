@@ -3,7 +3,7 @@
 <div class="container-fluid ">
     <div class="row">
         <div class="col-lg-6 col-md-8 col-sm-12 m-auto ">
-            <div class="card border-primary rounded-3 shadow-lg mt-5 p-3">
+            <div class="card border-primary rounded-3 shadow-lg mt-5 p-3 ">
             <form  method="post">
                     <div class="card-header bg-transparent">
                 <h3 class="mb-3"> Create a new product</h3>
@@ -12,56 +12,56 @@
              <div class="card-body bg-transparent"> 
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-floating mb-3">
-                            <input asp-for="Product.Title" id="form5Example1" class="form-control rounded-3" />
+                            <input asp-for="Product.Title" id="form5Example1" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.Title" class="form-label" for="form5Example1">Product Title </label>
                     <span asp-validation-for="Product.Title" class="text-danger"></span>
                 </div>
             <!-- display order input -->
                 <div class="form-floating mb-3">
-                            <input asp-for="Product.Description" id="form5Example2" class="form-control rounded-3" />
+                            <input asp-for="Product.Description" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.Description" class="form-label" for="form5Example2">Description</label>
                     <span asp-validation-for="Product.Description" class=" text-danger"></span>
 
                 </div>
                 <div class="form-floating mb-3">
-                            <input asp-for="Product.ISBN" id="form5Example2" class="form-control rounded-3" />
+                            <input asp-for="Product.ISBN" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.ISBN" class="form-label" for="form5Example2">ISBN</label>
                     <span asp-validation-for="Product.ISBN" class="text-danger"></span>
 
                 </div>
                 <div class="form-floating mb-3">
-                            <input asp-for="Product.Author" id="form5Example2" class="form-control rounded-3" />
+                            <input asp-for="Product.Author" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.Author" class="form-label" for="form5Example2">Author</label>
                     <span asp-validation-for="Product.Author" class="text-danger"></span>
 
                 </div>
                 <div class="form-floating mb-3">
-                            <input asp-for="Product.ListPrice" id="form5Example2" class="form-control rounded-3" />
+                            <input asp-for="Product.ListPrice" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.ListPrice" class="form-label" for="form5Example2">List Price</label>
                     <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
 
                 </div>
                 <div class="form-floating mb-3">
-                            <input asp-for="Product.Price" id="form5Example2" class="form-control rounded-3" />
+                            <input asp-for="Product.Price" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.Price" class="form-label" for="form5Example2">Price</label>
                     <span asp-validation-for="Product.Price" class="text-danger"></span>
 
                 </div>
                 <div class="form-floating mb-3">
-                            <input asp-for="Product.Price50" id="form5Example2" class="form-control rounded-3" />
+                            <input asp-for="Product.Price50" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.Price50" class="form-label" for="form5Example2">Price 50</label>
                     <span asp-validation-for="Product.Price50" class="text-danger"></span>
 
                 </div>
                 <div class="form-floating mb-3">
-                    <input asp-for="Product.Price100" id="form5Example2" class="form-control rounded-3" />
+                            <input asp-for="Product.Price100" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.Price100" class="form-label" for="form5Example2">Price 100</label>
                     <span asp-validation-for="Product.Price100" class="text-danger"></span>
 
                 </div>
                 <div class="form-outline mb-3 ">
                     <strong>Categoria:</strong>
-                            <select class="form-select rounded-3" asp-for="Product.CategoryId" asp-items="@Model.CategoryList" title=" ProductCategory" rows="10" class="d-block w-100">
+                            <select class="form-select rounded-3" asp-for="Product.CategoryId" asp-items="@Model.CategoryList" title=" ProductCategory" rows="10" class="d-block w-100 bg-transparent border-1">
                         <option value=""></option>
                        
                     </select>
