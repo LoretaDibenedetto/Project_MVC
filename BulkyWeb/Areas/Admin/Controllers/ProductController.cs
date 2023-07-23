@@ -24,21 +24,9 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
 
-        
-
-        {
-            //IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepository
-            //        .GetAll().Select(u => new SelectListItem
-            //        {
-            //            Text = u.Name,
-            //            Value = u.Id.ToString()
-            //        });
-
-            //ViewBag.CategoryList = CategoryList;
-
-
+        { 
             ProductVM productVM = new()
             {
                 CategoryList =_unitOfWork.CategoryRepository.GetAll().Select(u => new SelectListItem
@@ -48,9 +36,18 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 }),
                 Product = new Product()
             };
+            if(id== null|| id == 0)
+            {
+                //create
+             return View(productVM);
 
+            }
+            else
+            {   //update
+                productVM.Product = _unitOfWork.ProductRepository.Get(u=>u.Id== id);
+                return View(productVM);
+            }
 
-            return View(productVM);
 
 
 
@@ -58,50 +55,61 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(Product obj)
+        public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
-            
+
             if (ModelState.IsValid)
             {
-                _unitOfWork.ProductRepository.Add(obj);
+                _unitOfWork.ProductRepository.Add(productVM.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Category created successifully";
                 return RedirectToAction("Index");
             }
-            return View();
+            else
+            {
+     
+                    productVM.CategoryList = _unitOfWork.CategoryRepository.GetAll().Select(u => new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    });
+                return View(productVM);
+
+            
+            }
         }
 
 
-        [HttpGet]
-        public IActionResult Edit(int? id)
-        {
+        //[HttpGet]
+        //public IActionResult Edit(int? id)
+        //{
 
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product? ProductForDb = _unitOfWork.ProductRepository.Get(c => c.Id == id);
-            if (ProductForDb == null)
-            {
-                return NotFound();
-            }
-            return View(ProductForDb);
-        }
+        //    if (id == null || id == 0)
+        //    {
+        //        return NotFound();
+        //    }
+        //    Product? ProductForDb = _unitOfWork.ProductRepository.Get(c => c.Id == id);
+        //    if (ProductForDb == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(ProductForDb);
+        //}
 
 
-        [HttpPost]
-        public IActionResult Edit(Product obj)
-        {
+        //[HttpPost]
+        //public IActionResult Edit(Product obj)
+        //{
 
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.ProductRepository.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Product edit successifully";
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        _unitOfWork.ProductRepository.Update(obj);
+        //        _unitOfWork.Save();
+        //        TempData["success"] = "Product edit successifully";
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View();
+        //}
 
         [HttpGet]
         public IActionResult Delete(int? id)

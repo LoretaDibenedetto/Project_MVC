@@ -2,25 +2,26 @@
 
 <div class="container-fluid ">
     <div class="row">
-        <div class="col-lg-6 col-md-8 col-sm-12 m-auto ">
+        <div class="col-lg-10 col-md-8 col-sm-12 m-auto ">
             <div class="card border-primary rounded-3 shadow-lg mt-5 p-3 ">
-            <form  method="post">
+            <form  method="post" enctype="multipart/form-data">
+                <input asp-for="Product.Id" hidden>
                     <div class="card-header bg-transparent">
-                <h3 class="mb-3"> Create a new product</h3>
+                <h3 class="mb-3">@(Model.Product.Id!=0?"Update":"Create")  Product</h3>
                         <!--- Name input -->
              </div>
              <div class="card-body bg-transparent"> 
-                <div asp-validation-summary="All" class="text-danger"></div>
+               
                 <div class="form-floating mb-3">
                             <input asp-for="Product.Title" id="form5Example1" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.Title" class="form-label" for="form5Example1">Product Title </label>
                     <span asp-validation-for="Product.Title" class="text-danger"></span>
                 </div>
             <!-- display order input -->
-                <div class="form-floating mb-3">
-                            <input asp-for="Product.Description" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
-                    <label asp-for="Product.Description" class="form-label" for="form5Example2">Description</label>
-                    <span asp-validation-for="Product.Description" class=" text-danger"></span>
+                <div class=" mb-3 text-muted">
+                    <label asp-for="Product.Description" class="form-label flex-sm-wrap fs-6 fw-bold" for="form5Example2">Description</label>
+                    <textarea asp-for="Product.Description" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" ></textarea>
+                   
 
                 </div>
                 <div class="form-floating mb-3">
@@ -35,6 +36,12 @@
                     <span asp-validation-for="Product.Author" class="text-danger"></span>
 
                 </div>
+                 <div class="form-floating mb-3">
+                            <input type="file" asp-for="Product.ImageUrl" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
+                            <label asp-for="Product.ImageUrl" class="form-label" for="form5Example2">Image URL</label>
+                          
+
+                  </div>
                 <div class="form-floating mb-3">
                             <input asp-for="Product.ListPrice" id="form5Example2" class="form-control rounded-3 bg-transparent border-1" />
                     <label asp-for="Product.ListPrice" class="form-label" for="form5Example2">List Price</label>
@@ -72,8 +79,16 @@
 
             <!-- Submit button -->
                  <div class="card-footer bg-transparent">
-               
-                   <button type="submit" class="btn btn-primary  mb-4 " >Create</button>
+                        @if(Model.Product.Id!= 0)
+                        {
+                            <button type="submit" class="btn btn-primary  mb-4 ">Update</button>
+
+                        }
+                        else
+                        {
+                        <button type="submit" class="btn btn-primary  mb-4 " >Create</button>
+                            
+                        }
           
                
 
@@ -87,3 +102,24 @@
     </div>
     </div>
 </div>
+
+
+@section Scripts{
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'anchor autolink charmap codesample emoticons lists  table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough  | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        mergetags_list: [
+            { value: 'First.Name', title: 'First Name' },
+            { value: 'Email', title: 'Email' },
+        ]
+    });
+</script>
+
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}

@@ -10,7 +10,7 @@
             </div>
 
             <div class="col-6 mb-4">
-                <a asp-controller="Product" asp-action="Create" class="shadow-sm btn btn-outline-dark ms-4">
+                <a asp-controller="Product" asp-action="Upsert" class="shadow-sm btn btn-outline-dark ms-4">
                     <i class="bi bi-plus-circle me-1"> </i> Create New Product
                 </a>
             </div>
@@ -47,7 +47,7 @@
 
             <td>
                         <div class="w-75 btn-group shadow-sm" role="group">
-                            <a asp-controller="Product" asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-primary ">
+                            <a asp-controller="Product" asp-action="Upsert" asp-route-Id="@obj.Id" class="btn btn-primary ">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
                             <a asp-controller="Product" asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-outline-danger ">
