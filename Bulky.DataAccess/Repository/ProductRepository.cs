@@ -22,7 +22,23 @@ namespace Bulky.DataAccess.Repository
 
         public void Update(Product objp)
         {
-           _db.Products.Update(objp);
+          var objFromDb = _db.Products.FirstOrDefault(u => u.Id == objp.Id);
+            if (objFromDb != null)
+            {
+                objFromDb.Title = objp.Title;
+                objFromDb.ISBN = objp.ISBN;
+                objFromDb.Price = objp.Price;
+                objFromDb.Price50 = objp.Price50;
+                objFromDb.Price100 = objp.Price100;
+                objFromDb.ListPrice = objp.ListPrice;
+                objFromDb.Description = objp.Description;
+                objFromDb.CategoryId= objp.CategoryId;
+                objFromDb.Author = objp.Author;
+                if(objFromDb != null)
+                {
+                    objFromDb.ImageUrl = objp.ImageUrl; 
+                }
+            }
         }
     }
 }
