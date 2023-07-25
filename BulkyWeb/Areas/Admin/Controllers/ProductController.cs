@@ -2,6 +2,7 @@
 using Bulky.Models;
 using Bulky.Models.ViewModels;
 using BulkyWeb.DataAccess.Data;
+using Humanizer.Localisation.DateToOrdinalWords;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -114,8 +115,9 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
 
 
+
         //[HttpGet]
-        //public IActionResult Edit(int? id)
+        //public IActionResult Delete(int? id)
         //{
 
         //    if (id == null || id == 0)
@@ -131,52 +133,21 @@ namespace BulkyWeb.Areas.Admin.Controllers
         //}
 
 
-        //[HttpPost]
-        //public IActionResult Edit(Product obj)
+        //[HttpPost, ActionName("Delete")]
+        //public IActionResult DeletePOST(int? id)
         //{
-
-        //    if (ModelState.IsValid)
+        //    Product? obj = _unitOfWork.ProductRepository.Get(c => c.Id == id);
+        //    if (obj == null)
         //    {
-        //        _unitOfWork.ProductRepository.Update(obj);
-        //        _unitOfWork.Save();
-        //        TempData["success"] = "Product edit successifully";
-        //        return RedirectToAction("Index");
+        //        return NotFound(id);
         //    }
-        //    return View();
+        //    _unitOfWork.ProductRepository.Remove(obj);
+        //    _unitOfWork.Save();
+
+        //    TempData["success"] = "Category delete successifully";
+        //    return RedirectToAction("index");
+
         //}
-
-        [HttpGet]
-        public IActionResult Delete(int? id)
-        {
-
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product? ProductForDb = _unitOfWork.ProductRepository.Get(c => c.Id == id);
-            if (ProductForDb == null)
-            {
-                return NotFound();
-            }
-            return View(ProductForDb);
-        }
-
-
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
-        {
-            Product? obj = _unitOfWork.ProductRepository.Get(c => c.Id == id);
-            if (obj == null)
-            {
-                return NotFound(id);
-            }
-            _unitOfWork.ProductRepository.Remove(obj);
-            _unitOfWork.Save();
-
-            TempData["success"] = "Category delete successifully";
-            return RedirectToAction("index");
-
-        }
 
         #region API CALLS
 
@@ -185,6 +156,29 @@ namespace BulkyWeb.Areas.Admin.Controllers
         {
             var objProductList = _unitOfWork.ProductRepository.GetAll(inculdeProperties: "Category").ToList();
             return Json(new {data = objProductList});
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var objProductListDelete = _unitOfWork.ProductRepository.Get(u  => u.Id == id);
+            if (objProductListDelete == null)
+            {
+                return Json(new {success = false,message = "Error while deleting"} );
+            }
+
+            var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath,
+                objProductListDelete.ImageUrl.TrimStart('\\'));
+
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+            _unitOfWork.ProductRepository.Remove(objProductListDelete);
+            _unitOfWork.Save();
+         
+            return Json(new { success=true, message= "Delete Successful"});
+
         }
         #endregion
     }
