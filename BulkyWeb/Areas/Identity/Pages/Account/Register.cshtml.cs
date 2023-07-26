@@ -124,12 +124,12 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             }
             Input = new()
             {
-                RoleList= _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
                 {
-                    Text= i,
-                    Value= i
+                    Text = i,
+                    Value = i
                 })
-            }
+            };
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
