@@ -30,10 +30,14 @@
                             <a class="nav-link " asp-area="Costumer" asp-controller="Home" asp-action="Privacy">PRIVACY</a>
                         </li>
 
+                            @if (User.IsInRole(SD.Role_Admin))
+                            {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 CONTENT MANAGEMENT
                             </a>
+                                
+                            
                             <ul class="dropdown-menu">
                                 <li><hr class="dropdown-divider text-dark"></li>
                                 <li class="nav-item">
@@ -45,8 +49,9 @@
 
                                 <li><hr class="dropdown-divider"></li>
                                
-                            </ul>
+                                </ul>
                         </li>
+                            }
 
                     </ul>
                     <partial name="_LoginPartial"/>
