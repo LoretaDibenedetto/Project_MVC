@@ -45,7 +45,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-           IUnitOfWork unitOfWork )
+            IUnitOfWork unitOfWork )
         {
             _unitOfWork = unitOfWork;
             _roleManager = roleManager;
@@ -122,6 +122,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             public string? State { get; set; }
             public string? PostalCode { get; set; }
             public string? PhoneNumber { get; set; }
+            public int? CompanyId { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> CompanyList { get; set; }
         }
@@ -129,13 +130,8 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!_roleManager.RoleExistsAsync(SD.Role_Costumer).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Costumer)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
-            }
+
+
             Input = new()
             {
                 RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
@@ -143,14 +139,13 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                     Text = i,
                     Value = i
                 }),
-
-
-               CompanyList = _unitOfWork.CompanyRepository.GetAll().Select(i => new SelectListItem
-               {
-                   Text = i.Name,
-                   Value = i.Id.ToString()
-               })
+                CompanyList = _unitOfWork.CompanyRepository.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
             };
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
