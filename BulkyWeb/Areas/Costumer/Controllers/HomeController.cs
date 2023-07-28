@@ -1,8 +1,12 @@
 
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace BulkyWeb.Areas.Costumer.Controllers
 {
@@ -24,6 +28,8 @@ namespace BulkyWeb.Areas.Costumer.Controllers
             return View(productList);
         }
 
+
+
         public IActionResult Details(int id)
         {
             ShoppingCart cart = new()
@@ -38,10 +44,38 @@ namespace BulkyWeb.Areas.Costumer.Controllers
             return View(cart);
         }
 
+
+
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+
+
+        {
+            shoppingCart.Id = 0;
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            shoppingCart.ApplicationUserId = userId.Value;
+
+
+
+              
+            
+            _unitOfWork.ShoppingCartRepository.Add(shoppingCart);
+            _unitOfWork.Save();
+       
+            return RedirectToAction(nameof(Index));
+        }
+
         public IActionResult Privacy()
         {
             return View();
         }
+
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

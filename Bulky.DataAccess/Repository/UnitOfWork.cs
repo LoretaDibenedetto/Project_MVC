@@ -29,8 +29,13 @@ namespace Bulky.DataAccess.Repository
             ApplicationUserRepository = new ApplicationUserRepository(_db);
         }
 
+      
+
+       
+       
         public void Save()
         {
+           
             _db.SaveChanges();
         }
     }
