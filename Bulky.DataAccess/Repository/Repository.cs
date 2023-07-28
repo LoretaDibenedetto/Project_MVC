@@ -26,20 +26,45 @@ namespace Bulky.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? inculdeProperties = null)
-        {
-            IQueryable<T> query = dbSet;
-            query = query.Where(filter);
+        //public T Get(Expression<Func<T, bool>> filter, string? inculdeProperties = null)
+        //{
+        //    IQueryable<T> query = dbSet;
+        //    query = query.Where(filter);
 
-            if (!string.IsNullOrEmpty(inculdeProperties))
+        //    if (!string.IsNullOrEmpty(inculdeProperties))
+        //    {
+        //        foreach (var includeProp in inculdeProperties
+        //            .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        //        {
+        //            query = query.Include(includeProp);
+        //        }
+        //    }
+        //    return query.FirstOrDefault();
+        //}
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
+        {
+            IQueryable<T> query;
+            if (tracked)
             {
-                foreach (var includeProp in inculdeProperties
+                query = dbSet;
+
+            }
+            else
+            {
+                query = dbSet.AsNoTracking();
+            }
+
+            query = query.Where(filter);
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties
                     .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProp);
                 }
             }
             return query.FirstOrDefault();
+
         }
 
         public IEnumerable<T> GetAll(string? inculdeProperties = null)

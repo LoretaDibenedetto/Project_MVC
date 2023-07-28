@@ -54,18 +54,26 @@ namespace BulkyWeb.Areas.Costumer.Controllers
 
         {
             shoppingCart.Id = 0;
+          
             var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.ApplicationUserId = userId;    
 
-            shoppingCart.ApplicationUserId = userId.Value;
-
-
-
+            ShoppingCart cardFromDb = _unitOfWork.ShoppingCartRepository.Get
+                (u => u.ApplicationUserId == userId && u.ProductId == shoppingCart.ProductId);
               
-            
-            _unitOfWork.ShoppingCartRepository.Add(shoppingCart);
+            if (cardFromDb !=null) 
+            {
+                cardFromDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCartRepository.Update(cardFromDb);
+            }
+            else
+            {
+                _unitOfWork.ShoppingCartRepository.Add(shoppingCart);
+            }
+
+            TempData["success"] = "Cart updated successifully";
             _unitOfWork.Save();
-       
             return RedirectToAction(nameof(Index));
         }
 
