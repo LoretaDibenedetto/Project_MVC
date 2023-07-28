@@ -67,10 +67,15 @@ namespace Bulky.DataAccess.Repository
 
         }
 
-        public IEnumerable<T> GetAll(string? inculdeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? inculdeProperties = null)
         {
             IQueryable<T> query = dbSet;
-            if(!string.IsNullOrEmpty(inculdeProperties))
+            if(filter != null)
+            {
+            query = query.Where(filter);
+
+            }
+            if (!string.IsNullOrEmpty(inculdeProperties))
             {
                 foreach(var includeProp in inculdeProperties
                     .Split(new char[]{ ',' },StringSplitOptions.RemoveEmptyEntries))
