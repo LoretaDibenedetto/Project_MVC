@@ -93,7 +93,7 @@ namespace BulkyWeb.Areas.Costumer.Controllers{
             ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
 
 
-            ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUserRepository.Get(u => u.Id == userId);
+     ApplicationUser applicationUser = _unitOfWork.ApplicationUserRepository.Get(u => u.Id == userId);
 
 
 
@@ -104,7 +104,7 @@ namespace BulkyWeb.Areas.Costumer.Controllers{
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
 
-            if (ShoppingCartVM.OrderHeader.ApplicationUser.CompanyId.GetValueOrDefault() == 0)
+            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                 ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
                 ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
@@ -132,7 +132,7 @@ namespace BulkyWeb.Areas.Costumer.Controllers{
                 _unitOfWork.Save();
             }
 
-            if (ShoppingCartVM.OrderHeader.ApplicationUser.CompanyId.GetValueOrDefault() == 0)
+            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                
             }
