@@ -132,11 +132,18 @@ namespace BulkyWeb.Areas.Costumer.Controllers{
                 _unitOfWork.Save();
             }
 
+            if (ShoppingCartVM.OrderHeader.ApplicationUser.CompanyId.GetValueOrDefault() == 0)
+            {
+               
+            }
 
-            return View(ShoppingCartVM);
+            return RedirectToAction(nameof(OrderConfirmation),new {id = ShoppingCartVM.OrderHeader.Id});
         }
 
-
+        public IActionResult OrderConfirmation(int id)
+        {
+            return View(id);
+        }
 
         private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
         {
