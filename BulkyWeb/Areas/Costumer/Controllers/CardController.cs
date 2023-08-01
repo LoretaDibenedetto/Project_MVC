@@ -4,7 +4,10 @@ using Bulky.Models.ViewModels;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Stripe.Checkout;
 using System.Security.Claims;
+
 
 namespace BulkyWeb.Areas.Costumer.Controllers{  
     [Area("costumer")]
@@ -134,7 +137,21 @@ namespace BulkyWeb.Areas.Costumer.Controllers{
 
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
-               
+                var options = new SessionCreateOptions
+                {
+                    SuccessUrl = "https://example.com/success",
+                    LineItems = new List<SessionLineItemOptions>
+                      {
+                        new SessionLineItemOptions
+                        {
+                          Price = "price_H5ggYwtDq4fbrJ",
+                          Quantity = 2,
+                        },
+                      },
+                    Mode = "payment",
+                };
+                var service = new SessionService();
+                service.Create(options)
             }
 
             return RedirectToAction(nameof(OrderConfirmation),new {id = ShoppingCartVM.OrderHeader.Id});
