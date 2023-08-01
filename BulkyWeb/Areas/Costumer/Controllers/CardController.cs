@@ -140,7 +140,7 @@ namespace BulkyWeb.Areas.Costumer.Controllers{
                 var domain = "https://localhost:7053/";
                 var options = new SessionCreateOptions
                 {
-                    SuccessUrl = domain+ $"/costumer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    SuccessUrl = domain+ "/costumer/card/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
                     CancelUrl = domain+"costumer/card/index",
                     LineItems = new List<SessionLineItemOptions>(),       
                     Mode = "payment",
