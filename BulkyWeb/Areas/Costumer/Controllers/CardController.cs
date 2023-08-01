@@ -137,21 +137,40 @@ namespace BulkyWeb.Areas.Costumer.Controllers{
 
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
+                var domain = "https://localhost:7053/";
                 var options = new SessionCreateOptions
                 {
-                    SuccessUrl = "https://example.com/success",
-                    LineItems = new List<SessionLineItemOptions>
-                      {
-                        new SessionLineItemOptions
-                        {
-                          Price = "price_H5ggYwtDq4fbrJ",
-                          Quantity = 2,
-                        },
-                      },
+                    SuccessUrl = domain+ $"/costumer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    CancelUrl = domain+"costumer/card/index",
+                    LineItems = new List<SessionLineItemOptions>(),       
                     Mode = "payment",
                 };
+
+                foreach(var item in ShoppingCartVM.ShoppingCartList)
+                {
+                    var sessionLineItem = new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = (long)(item.Price *100),
+                            Currency= "usd",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                               Name= item.Product.Title
+                            }
+
+                        },
+                        Quantity= item.Count
+                    };
+                    options.LineItems.Add(sessionLineItem);
+                }
                 var service = new SessionService();
-                service.Create(options);
+              Session session =  service.Create(options);
+                _unitOfWork.OrderHeaderRepository.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+                _unitOfWork.Save();
+
+                Response.Headers.Add("Location", session.Url);
+                return new StatusCodeResult(303);
             };
 
             return RedirectToAction(nameof(OrderConfirmation),new {id = ShoppingCartVM.OrderHeader.Id});
