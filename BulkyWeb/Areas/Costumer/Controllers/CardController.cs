@@ -151,8 +151,8 @@ namespace BulkyWeb.Areas.Costumer.Controllers{
                     Mode = "payment",
                 };
                 var service = new SessionService();
-                service.Create(options)
-            }
+                service.Create(options);
+            };
 
             return RedirectToAction(nameof(OrderConfirmation),new {id = ShoppingCartVM.OrderHeader.Id});
         }
